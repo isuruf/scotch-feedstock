@@ -1,6 +1,6 @@
 CD src
 
-copy %PREFIX%\Makefile.inc.i686_pc_mingw32 Makefile.inc
+copy Make.inc\Makefile.inc.i686_pc_mingw32 Makefile.inc
 
 nmake esmumps
 nmake check
