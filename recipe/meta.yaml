@@ -14,6 +14,9 @@ source:
 build:
   number: 2
 
+patches:
+  - windows_makefile.patch
+
 requirements:
  build:
   - toolchain
