@@ -2,8 +2,8 @@ CD src
 
 copy Make.inc\Makefile.inc.i686_pc_mingw32 Makefile.inc
 
-nmake esmumps
-nmake check
+CC=clang AR=llvm-ar RANLIB=llvm-ranlib nmake esmumps
+CC=clang AR=llvm-ar RANLIB=llvm-ranlib nmake check
 
 CD ..
 
