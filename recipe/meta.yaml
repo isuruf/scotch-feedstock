@@ -10,92 +10,50 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   md5: {{ md5 }}
-<<<<<<< HEAD
-  url: https://gforge.inria.fr/frs/download.php/latestfile/298/{{ name }}_{{ version }}.tar.gz
-  patches:
-    - windows_makefile.patch
-
-build:
-  number: 2
-
-
-=======
   url: https://gforge.inria.fr/frs/download.php/latestfile/298/scotch_{{ version }}.tar.gz
   patches:
     - patch1.diff
     - patch2.diff
+    - windows_makefile.patch
 
 build:
-  skip: true  # [win]
+  skip: true
   number: {{ build }}
->>>>>>> upstream/master
+  msvc_compiler: 14.0
 
 requirements:
  build:
   - toolchain
-<<<<<<< HEAD
-  - zlib 1.2.*
-  - bison  # [not win]
+  - bison       # [not win]
   - flex 2.6.0  # [not win]
-  - vc 9  # [win and py27]
-  - vc 10  # [win and py34]
-  - vc 14  # [win and py35]
- run:
-  - zlib 1.2.*
-  - vc 9  # [win and py27]
-  - vc 10  # [win and py34]
-  - vc 14  # [win and py35]
-=======
-  - bison
-  - flex 2.6.0
+  - vc 14       # [win]
   - zlib 1.2.*
   {% if name == 'ptscotch' %}
   - mpich 3.2.*
   {% endif %}
  run:
   - zlib 1.2.*
+  - vc 14       # [win]
   {% if name == 'ptscotch' %}
   - scotch {{version}}
   - mpich 3.2.*
   {% endif %}
->>>>>>> upstream/master
 
 test:
   requires:
     - toolchain
   commands:
-<<<<<<< HEAD
+    {% if name == 'scotch' %}
     - test -f "${PREFIX}/lib/libscotch.a"  # [not win]
     - test -f "${PREFIX}/lib/libscotcherr.a"  # [not win]
     - test -f "${PREFIX}/lib/libscotcherrexit.a"  # [not win]
     - test -f "${PREFIX}/lib/libscotchmetis.a"  # [not win]
     - test -f "${PREFIX}/lib/libesmumps.a"  # [not win]
-    - test -f "${PREFIX}/include/esmumps.h"  # [not win]
-    - test -f "${PREFIX}/include/metis.h"  # [not win]
     - test -f "${PREFIX}/include/scotch.h"  # [not win]
     - test -f "${PREFIX}/include/scotchf.h"  # [not win]
-    - mord -V  # [not win]
-    - gotst -V  # [not win]
-    - gord -V  # [not win]
-    - gpart -V  # [not win]
-    - gmap -V  # [not win]
-    - mord.exe -V  # [win]
-    - gotst.exe -V  # [win]
-    - gord.exe -V  # [win]
-    - gpart.exe -V  # [win]
-    - gmap.exe -V  # [win]
-=======
-    {% if name == 'scotch' %}
-    - test -f "${PREFIX}/lib/libscotch.a"
-    - test -f "${PREFIX}/lib/libscotcherr.a"
-    - test -f "${PREFIX}/lib/libscotcherrexit.a"
-    - test -f "${PREFIX}/lib/libscotchmetis.a"
-    - test -f "${PREFIX}/lib/libesmumps.a"
-    - test -f "${PREFIX}/include/scotch.h"
-    - test -f "${PREFIX}/include/scotchf.h"
-    - test -f "${PREFIX}/include/scotch/metis.h"
-    - test ! -f "${PREFIX}/include/metis.h"
-    - test -f "${PREFIX}/include/esmumps.h"
+    - test -f "${PREFIX}/include/scotch/metis.h"  # [not win]
+    - test ! -f "${PREFIX}/include/metis.h"  # [not win]
+    - test -f "${PREFIX}/include/esmumps.h"  # [not win]
     - mord -V
     - gmap -V
     - gord -V
@@ -120,7 +78,6 @@ test:
     - dgscat -V
     - dgtst -V
     {% endif %}
->>>>>>> upstream/master
 
 about:
   home: https://www.labri.fr/perso/pelegrin/scotch/
