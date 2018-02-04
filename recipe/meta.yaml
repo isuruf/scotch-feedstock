@@ -1,5 +1,6 @@
-{% set name = "scotch" %}
+{% set build = 4 %}
 {% set version = "6.0.4" %}
+{% set name = "scotch" %}
 {% set md5 = "d58b825eb95e1db77efe8c6ff42d329f" %}
 
 package:
@@ -9,6 +10,7 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tar.gz
   md5: {{ md5 }}
+<<<<<<< HEAD
   url: https://gforge.inria.fr/frs/download.php/latestfile/298/{{ name }}_{{ version }}.tar.gz
   patches:
     - windows_makefile.patch
@@ -17,10 +19,21 @@ build:
   number: 2
 
 
+=======
+  url: https://gforge.inria.fr/frs/download.php/latestfile/298/scotch_{{ version }}.tar.gz
+  patches:
+    - patch1.diff
+    - patch2.diff
+
+build:
+  skip: true  # [win]
+  number: {{ build }}
+>>>>>>> upstream/master
 
 requirements:
  build:
   - toolchain
+<<<<<<< HEAD
   - zlib 1.2.*
   - bison  # [not win]
   - flex 2.6.0  # [not win]
@@ -32,9 +45,26 @@ requirements:
   - vc 9  # [win and py27]
   - vc 10  # [win and py34]
   - vc 14  # [win and py35]
+=======
+  - bison
+  - flex 2.6.0
+  - zlib 1.2.*
+  {% if name == 'ptscotch' %}
+  - mpich 3.2.*
+  {% endif %}
+ run:
+  - zlib 1.2.*
+  {% if name == 'ptscotch' %}
+  - scotch {{version}}
+  - mpich 3.2.*
+  {% endif %}
+>>>>>>> upstream/master
 
 test:
+  requires:
+    - toolchain
   commands:
+<<<<<<< HEAD
     - test -f "${PREFIX}/lib/libscotch.a"  # [not win]
     - test -f "${PREFIX}/lib/libscotcherr.a"  # [not win]
     - test -f "${PREFIX}/lib/libscotcherrexit.a"  # [not win]
@@ -54,20 +84,62 @@ test:
     - gord.exe -V  # [win]
     - gpart.exe -V  # [win]
     - gmap.exe -V  # [win]
+=======
+    {% if name == 'scotch' %}
+    - test -f "${PREFIX}/lib/libscotch.a"
+    - test -f "${PREFIX}/lib/libscotcherr.a"
+    - test -f "${PREFIX}/lib/libscotcherrexit.a"
+    - test -f "${PREFIX}/lib/libscotchmetis.a"
+    - test -f "${PREFIX}/lib/libesmumps.a"
+    - test -f "${PREFIX}/include/scotch.h"
+    - test -f "${PREFIX}/include/scotchf.h"
+    - test -f "${PREFIX}/include/scotch/metis.h"
+    - test ! -f "${PREFIX}/include/metis.h"
+    - test -f "${PREFIX}/include/esmumps.h"
+    - mord -V
+    - gmap -V
+    - gord -V
+    - gotst -V
+    - gpart -V
+    - gscat -V
+    {% else %}
+    - test -f "${PREFIX}/lib/libptscotch.a"
+    - test -f "${PREFIX}/lib/libptscotcherr.a"
+    - test -f "${PREFIX}/lib/libptscotcherrexit.a"
+    - test -f "${PREFIX}/lib/libptscotchparmetis.a"
+    - test -f "${PREFIX}/lib/libptesmumps.a"
+    - test -f "${PREFIX}/include/ptscotch.h"
+    - test -f "${PREFIX}/include/ptscotchf.h"
+    - test -f "${PREFIX}/include/scotch/parmetis.h"
+    - test ! -f "${PREFIX}/include/parmetis.h"
+    - test -f "${PREFIX}/include/esmumps.h"
+    - dggath -V
+    - dgmap -V
+    - dgord -V
+    - dgpart -V
+    - dgscat -V
+    - dgtst -V
+    {% endif %}
+>>>>>>> upstream/master
 
 about:
   home: https://www.labri.fr/perso/pelegrin/scotch/
   license: CeCILL-C
-  license_file: LICENSE_en.txt
+  license_file: doc/CeCILL-C_V1-en.txt
+  {% if name == 'scotch' %}
   summary: 'SCOTCH: Static Mapping, Graph, Mesh and Hypergraph Partitioning, and Parallel and Sequential Sparse Matrix Ordering Package'
+  {% else %}
+  summary: 'PT-SCOTCH: (Parallel) Static Mapping, Graph, Mesh and Hypergraph Partitioning, and Parallel and Sequential Sparse Matrix Ordering Package'
+  {% endif %}
   description: |
     Software package and libraries for sequential and parallel 
     graph partitioning, static mapping and clustering, sequential 
     mesh and hypergraph partitioning, and sequential and parallel 
     sparse matrix block ordering.
-  doc_url: http://gforge.inria.fr/docman/?group_id=248
+  doc_url: http://gforge.inria.fr/docman/?group_id=248&dirid=326
 
 extra:
   recipe-maintainers:
     - basnijholt
+    - dalcinl
     - minrk
